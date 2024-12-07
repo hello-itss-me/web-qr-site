@@ -6,9 +6,9 @@
     <title>QR Code ID</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7; /* Светлый фон */
+            color: #333; /* Тёмный текст */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,39 +19,42 @@
 
         h1 {
             font-size: 2.5rem;
+            color: #222; /* Глубокий тёмный серый */
             margin-bottom: 1rem;
         }
 
         #id-display {
             font-size: 1.5rem;
-            background-color: #ffffff20;
+            background-color: #e0e0e0; /* Светло-серый блок */
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             margin-bottom: 1rem;
+            color: #333; /* Чёрный текст */
         }
 
         .copy-button {
-            background-color: #ffffff;
-            color: #2575fc;
+            background-color: #333; /* Тёмно-серый фон */
+            color: #fff; /* Белый текст */
             border: none;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .copy-button:hover {
-            background-color: #f1f1f1;
+            background-color: #444; /* Немного светлее при наведении */
         }
 
         .copy-button:active {
-            background-color: #e0e0e0;
+            background-color: #555; /* Ещё светлее при нажатии */
         }
 
         .notification {
             margin-top: 1rem;
             font-size: 1rem;
+            color: #666; /* Серый цвет для уведомления */
             opacity: 0;
             transition: opacity 0.3s ease;
         }

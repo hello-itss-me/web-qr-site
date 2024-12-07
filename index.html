@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code ID</title>
     <style>
-        /* Основные стили */
         body {
             font-family: Arial, sans-serif;
             background-color: #F4F4F6;
@@ -92,19 +91,24 @@
         // Функция загрузки данных
         if (id) {
             fetch(`${scriptURL}?id=${id}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Ошибка сервера");
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.error) {
                         errorMessage.textContent = "Ошибка: " + data.error;
                         idDisplay.textContent = "Не найдено";
                         nameDisplay.textContent = "Не найдено";
                     } else {
-                        idDisplay.textContent = data.id;
-                        nameDisplay.textContent = data.name;
+                        idDisplay.textContent = data.id || "Не указано";
+                        nameDisplay.textContent = data.name || "Не указано";
                     }
                 })
                 .catch(error => {
-                    errorMessage.textContent = "Ошибка подключения к серверу.";
+                    errorMessage.textContent = "Ошибка подключения к серверу. Проверьте URL.";
                     console.error(error);
                 });
         } else {

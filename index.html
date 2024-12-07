@@ -71,13 +71,15 @@
         <div id="id-display" class="data">Загрузка...</div>
         <p><strong>Название товара:</strong></p>
         <div id="name-display" class="data">Загрузка...</div>
+        <p><strong>Дополнительная информация:</strong></p>
+        <div id="extra-display" class="data">Загрузка...</div>
         <button class="button" onclick="copyToClipboard()">Скопировать данные</button>
         <p id="error-message" class="error"></p>
     </div>
 
     <script>
         // URL вашего Google Apps Script
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyx0ce_fNLtzXfIGxzuoqBf1BGn-yMLu1FVodqb0wH4xfzjKUSfSZfkQL7xu2b5I7ubVg/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyVliTyNzi0cfJEx9PQA3OEz5G7JChQJ6bSLf9aQYWydoBPaRPGSj_5EzNQDKs_PDABPA/exec";
 
         // Получаем ID из URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -86,6 +88,7 @@
         // Элементы для отображения данных
         const idDisplay = document.getElementById('id-display');
         const nameDisplay = document.getElementById('name-display');
+        const extraDisplay = document.getElementById('extra-display');
         const errorMessage = document.getElementById('error-message');
 
         // Функция загрузки данных
@@ -102,9 +105,11 @@
                         errorMessage.textContent = "Ошибка: " + data.error;
                         idDisplay.textContent = "Не найдено";
                         nameDisplay.textContent = "Не найдено";
+                        extraDisplay.textContent = "Не найдено";
                     } else {
                         idDisplay.textContent = data.id || "Не указано";
                         nameDisplay.textContent = data.name || "Не указано";
+                        extraDisplay.textContent = data.extra || "Не указано";
                     }
                 })
                 .catch(error => {
@@ -119,7 +124,8 @@
         function copyToClipboard() {
             const idText = idDisplay.textContent;
             const nameText = nameDisplay.textContent;
-            const combinedText = `ID: ${idText}\nНазвание: ${nameText}`;
+            const extraText = extraDisplay.textContent;
+            const combinedText = `ID: ${idText}\nНазвание: ${nameText}\nДополнительно: ${extraText}`;
             navigator.clipboard.writeText(combinedText)
                 .then(() => alert("Данные скопированы!"))
                 .catch(err => console.error("Ошибка копирования: ", err));

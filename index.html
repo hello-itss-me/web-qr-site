@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Привет</title>
+    <title>QR Code ID</title>
 </head>
 <body>
-    <h1>Привет</h1>
+    <h1>Ваш ID:</h1>
+    <p id="id-display">ID не найден</p>
+
+    <script>
+        // Получаем параметр ID из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        // Если ID найден, показываем его
+        if (id) {
+            document.getElementById('id-display').textContent = id;
+        }
+    </script>
 </body>
 </html>

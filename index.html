@@ -4,20 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code ID</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #id-display {
+            font-size: 1.5rem;
+            background-color: #ffffff20;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .copy-button {
+            background-color: #ffffff;
+            color: #2575fc;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .copy-button:active {
+            background-color: #e0e0e0;
+        }
+
+        .notification {
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.visible {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <h1>Ваш ID:</h1>
     <p id="id-display">ID не найден</p>
+    <button class="copy-button" id="copy-button">Скопировать</button>
+    <p class="notification" id="notification">ID скопирован!</p>
 
     <script>
         // Получаем параметр ID из URL
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
+        const idDisplay = document.getElementById('id-display');
+        const copyButton = document.getElementById('copy-button');
+        const notification = document.getElementById('notification');
+
         // Если ID найден, показываем его
         if (id) {
-            document.getElementById('id-display').textContent = id;
+            idDisplay.textContent = id;
         }
+
+        // Копирование ID в буфер обмена
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(id)
+                .then(() => {
+                    // Показываем уведомление
+                    notification.classList.add('visible');
+                    setTimeout(() => {
+                        notification.classList.remove('visible');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Ошибка при копировании: ', err);
+                });
+        });
     </script>
 </body>
 </html>

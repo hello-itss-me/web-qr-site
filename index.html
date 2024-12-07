@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7; /* Светлый фон */
-            color: #333; /* Тёмный текст */
+            background-color: #f7f7f7;
+            color: #333;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -16,88 +16,52 @@
             min-height: 100vh;
             margin: 0;
         }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #222; /* Глубокий тёмный серый */
-            margin-bottom: 1rem;
+        h1, h2 {
+            margin: 0.5rem 0;
         }
-
-        #id-display {
+        #id-display, #product-name {
             font-size: 1.5rem;
-            background-color: #e0e0e0; /* Светло-серый блок */
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            color: #333; /* Чёрный текст */
+            margin: 0.5rem 0;
         }
-
-        .copy-button {
-            background-color: #333; /* Тёмно-серый фон */
-            color: #fff; /* Белый текст */
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .copy-button:hover {
-            background-color: #444; /* Немного светлее при наведении */
-        }
-
-        .copy-button:active {
-            background-color: #555; /* Ещё светлее при нажатии */
-        }
-
-        .notification {
-            margin-top: 1rem;
-            font-size: 1rem;
-            color: #666; /* Серый цвет для уведомления */
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .notification.visible {
-            opacity: 1;
+        .loading {
+            font-size: 1.2rem;
+            color: #888;
         }
     </style>
 </head>
 <body>
     <h1>Ваш ID:</h1>
-    <p id="id-display">ID не найден</p>
-    <button class="copy-button" id="copy-button">Скопировать</button>
-    <p class="notification" id="notification">ID скопирован!</p>
+    <p id="id-display">Загрузка...</p>
+    <h2>Название товара:</h2>
+    <p id="product-name" class="loading">Загрузка...</p>
 
     <script>
-        // Получаем параметр ID из URL
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
         const idDisplay = document.getElementById('id-display');
-        const copyButton = document.getElementById('copy-button');
-        const notification = document.getElementById('notification');
+        const productNameDisplay = document.getElementById('product-name');
 
-        // Если ID найден, показываем его
         if (id) {
             idDisplay.textContent = id;
-        }
 
-        // Копирование ID в буфер обмена
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(id)
-                .then(() => {
-                    // Показываем уведомление
-                    notification.classList.add('visible');
-                    setTimeout(() => {
-                        notification.classList.remove('visible');
-                    }, 2000);
+            // URL вашего API
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbxXC3kQBEflzQXBiVEu0i2PAzhshuu36JDg8M6ib7626knZ21HSBY4IzjiM934gq-aPIA/exec'; // Вставьте URL из Google Apps Script
+
+            // Запрос к API
+            fetch(`${apiUrl}?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    productNameDisplay.textContent = data.productName;
                 })
-                .catch(err => {
-                    console.error('Ошибка при копировании: ', err);
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    productNameDisplay.textContent = "Ошибка загрузки названия";
                 });
-        });
+        } else {
+            idDisplay.textContent = "ID не найден";
+            productNameDisplay.textContent = "Название товара отсутствует";
+        }
     </script>
 </body>
 </html>
